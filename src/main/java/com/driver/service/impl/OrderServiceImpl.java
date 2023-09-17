@@ -1,0 +1,31 @@
+import com.driver.service.OrderService;
+import com.driver.shared.dto.OrderDto;
+
+import java.util.List;
+
+public class OrderServiceImpl implements OrderService {
+    @Override
+    public OrderDto createOrder(OrderDto order) {
+        return null;
+    }
+
+    @Override
+    public OrderDto getOrderById(String orderId) throws Exception {
+        return null;
+    }
+
+    @Override
+    public OrderDto updateOrderDetails(String orderId, OrderDto order) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void deleteOrder(String orderId) throws Exception {
+
+    }
+
+    @Override
+    public List<OrderDto> getOrders() {
+        return null;
+    }
+}
