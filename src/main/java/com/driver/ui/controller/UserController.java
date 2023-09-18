@@ -37,7 +37,7 @@ public class UserController {
 	}
 
 	@PostMapping()
-	public UserResponse createUser(@RequestBody UserDetailsRequestModel userDetails) throws Exception{
+	public UserResponse createUser(@RequestBody UserDto userDetails) throws Exception{
 
 		UserDto userDto = userService.createUser(userDetails);
 

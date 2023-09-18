@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
     @Override
-    public UserDto createUser(UserDetailsRequestModel user) throws Exception {
+    public UserDto createUser(UserDto user) throws Exception {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(user.getEmail());
         userEntity.setUserId(String.valueOf(UUID.randomUUID()));
