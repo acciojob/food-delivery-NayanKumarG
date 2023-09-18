@@ -51,8 +51,18 @@ public class UserController {
 
 	@PutMapping(path = "/{id}")
 	public UserResponse updateUser(@PathVariable String id, @RequestBody UserDetailsRequestModel userDetails) throws Exception{
+		UserDto userDto = new UserDto();
+		userDto.setEmail(userDetails.getEmail());
+		userDto.setFirstName(userDetails.getFirstName());
+		userDto.setLastName(userDetails.getLastName());
+		UserDto updateduser = userService.updateUser(id , userDto);
 
-		return null;
+		UserResponse userResponse = new UserResponse();
+		userResponse.setUserId(updateduser.getUserId());
+		userResponse.setEmail(updateduser.getEmail());
+		userResponse.setFirstName(updateduser.getFirstName());
+		userResponse.setLastName(updateduser.getLastName());
+		return userResponse;
 	}
 
 	@DeleteMapping(path = "/{id}")
