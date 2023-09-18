@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto user) throws Exception {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(user.getEmail());
-        userEntity.setUserId(String.valueOf(UUID.randomUUID()));
+        userEntity.setUserId(user.getUserId());
         userEntity.setFirstName(user.getFirstName());
         userEntity.setLastName(user.getLastName());
         UserEntity savedUser = userRepository.save(userEntity);
