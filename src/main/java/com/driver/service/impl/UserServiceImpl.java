@@ -9,6 +9,7 @@ import com.driver.shared.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -71,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
         UserDto userDto = new UserDto();
         userDto.setLastName(updatedUdser.getLastName());
-        userDto.setId(user.getId());
+        userDto.setId(updatedUdser.getId());
         userDto.setUserId(updatedUdser.getUserId());
         userDto.setEmail(updatedUdser.getEmail());
         userDto.setFirstName(updatedUdser.getFirstName());
@@ -87,6 +88,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getUsers() {
-        return null;
+        List<UserEntity> list = (List<UserEntity>) userRepository.findAll();
+        List<UserDto> userDtoList = new ArrayList<>();
+        for(UserEntity userEntity : list)
+        {
+            UserDto userDto = new UserDto();
+            userDto.setLastName(userEntity.getLastName());
+            userDto.setId(userEntity.getId());
+            userDto.setUserId(userEntity.getUserId());
+            userDto.setEmail(userEntity.getEmail());
+            userDto.setFirstName(userEntity.getFirstName());
+            userDtoList.add(userDto);
+        }
+        return userDtoList;
     }
 }

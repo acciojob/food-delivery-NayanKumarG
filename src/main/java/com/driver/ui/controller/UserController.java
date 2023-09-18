@@ -1,5 +1,6 @@
 package com.driver.ui.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.driver.model.request.UserDetailsRequestModel;
@@ -79,7 +80,18 @@ public class UserController {
 	@GetMapping()
 	public List<UserResponse> getUsers(){
 
-		return null;
+		List<UserDto> userDtoList = userService.getUsers();
+		List<UserResponse> userResponses = new ArrayList<>();
+		for(UserDto userDto : userDtoList)
+		{
+			UserResponse userResponse = new UserResponse();
+			userResponse.setUserId(userDto.getUserId());
+			userResponse.setEmail(userDto.getEmail());
+			userResponse.setFirstName(userDto.getFirstName());
+			userResponse.setLastName(userDto.getLastName());
+			userResponses.add(userResponse);
+		}
+		return userResponses;
 	}
 	
 }
