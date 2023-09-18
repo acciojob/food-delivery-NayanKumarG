@@ -11,9 +11,9 @@ import com.driver.shared.dto.UserDto;
  */
 public interface UserService{
 
-	UserResponse createUser(UserDetailsRequestModel user) throws Exception;
+	UserDto createUser(UserDetailsRequestModel user) throws Exception;
 	UserDto getUser(String email) throws Exception;
-	UserResponse getUserByUserId(String userId) throws Exception;
+	UserDto getUserByUserId(String userId) throws Exception;
 	UserDto updateUser(String userId, UserDto user) throws Exception;
 	void deleteUser(String userId) throws Exception;
 	List<UserDto> getUsers();

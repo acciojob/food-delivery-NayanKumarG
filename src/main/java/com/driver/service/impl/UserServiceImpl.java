@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
     @Override
-    public UserResponse createUser(UserDetailsRequestModel user) throws Exception {
+    public UserDto createUser(UserDetailsRequestModel user) throws Exception {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(user.getEmail());
         userEntity.setUserId(String.valueOf(UUID.randomUUID()));
@@ -27,12 +27,13 @@ public class UserServiceImpl implements UserService {
         userEntity.setLastName(user.getLastName());
         UserEntity savedUser = userRepository.save(userEntity);
 
-        UserResponse userResponse = new UserResponse();
-        userResponse.setUserId(savedUser.getUserId());
-        userResponse.setEmail(savedUser.getEmail());
-        userResponse.setFirstName(savedUser.getFirstName());
-        userResponse.setLastName(savedUser.getLastName());
-        return userResponse;
+        UserDto userDto = new UserDto();
+        userDto.setEmail(savedUser.getEmail());
+        userDto.setId(savedUser.getId());
+        userDto.setFirstName(savedUser.getFirstName());
+        userDto.setUserId(savedUser.getUserId());
+        userDto.setLastName(savedUser.getLastName());
+        return userDto;
     }
 
     @Override
@@ -41,18 +42,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse getUserByUserId(String userId) throws Exception {
+    public UserDto getUserByUserId(String userId) throws Exception {
 
         Optional<UserEntity> optionalUser = Optional.ofNullable(userRepository.findByUserId(userId));
         UserResponse userResponse = new UserResponse();
         UserEntity userEntity = optionalUser.get();
+        UserDto userDto = new UserDto();
+        userDto.setEmail(userEntity.getEmail());
+        userDto.setId(userEntity.getId());
+        userDto.setFirstName(userEntity.getFirstName());
+        userDto.setUserId(userEntity.getUserId());
+        userDto.setLastName(userEntity.getLastName());
 
-        userResponse.setUserId(userEntity.getUserId());
-        userResponse.setEmail(userEntity.getEmail());
-        userResponse.setFirstName(userEntity.getFirstName());
-        userResponse.setLastName(userEntity.getLastName());
 
-        return userResponse;
+
+        return userDto;
     }
 
     @Override

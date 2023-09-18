@@ -6,6 +6,7 @@ import com.driver.model.request.UserDetailsRequestModel;
 import com.driver.model.response.OperationStatusModel;
 import com.driver.model.response.UserResponse;
 import com.driver.service.UserService;
+import com.driver.shared.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +27,26 @@ public class UserController {
 	@GetMapping(path = "/{id}")
 	public UserResponse getUser(@PathVariable String id) throws Exception{
 
-		return userService.getUserByUserId(id);
+		UserDto userDto = userService.getUserByUserId(id);
+		UserResponse userResponse = new UserResponse();
+		userResponse.setUserId(userDto.getUserId());
+		userResponse.setEmail(userDto.getEmail());
+		userResponse.setFirstName(userDto.getFirstName());
+		userResponse.setLastName(userDto.getLastName());
+		return userResponse;
 	}
 
 	@PostMapping()
 	public UserResponse createUser(@RequestBody UserDetailsRequestModel userDetails) throws Exception{
 
-		return userService.createUser(userDetails);
+		UserDto userDto = userService.createUser(userDetails);
+
+		UserResponse userResponse = new UserResponse();
+		userResponse.setUserId(userDto.getUserId());
+		userResponse.setEmail(userDto.getEmail());
+		userResponse.setFirstName(userDto.getFirstName());
+		userResponse.setLastName(userDto.getLastName());
+		return userResponse;
 	}
 
 	@PutMapping(path = "/{id}")
