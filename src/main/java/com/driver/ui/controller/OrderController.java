@@ -5,6 +5,9 @@ import java.util.List;
 import com.driver.model.request.OrderDetailsRequestModel;
 import com.driver.model.response.OperationStatusModel;
 import com.driver.model.response.OrderDetailsResponse;
+import com.driver.service.OrderService;
+import com.driver.shared.dto.OrderDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +20,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
+
+	@Autowired
+	OrderService orderService;
 	@GetMapping(path="/{id}")
 	public OrderDetailsResponse getOrder(@PathVariable String id) throws Exception{
 
-		return null;
+		OrderDto orderDto = orderService.getOrderById(id);
+
+		OrderDetailsResponse orderDetailsResponse = new OrderDetailsResponse();
+		orderDetailsResponse.setOrderId(orderDto.getOrderId());
+		orderDetailsResponse.setCost(orderDto.getCost());
+		orderDetailsResponse.setItems(orderDto.getItems());
+		orderDetailsResponse.setUserId(orderDto.getUserId());
+		orderDetailsResponse.setStatus(orderDto.isStatus());
+		return orderDetailsResponse;
 	}
 	
 	@PostMapping()
