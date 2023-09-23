@@ -26,15 +26,21 @@ public class OrderController {
 	@GetMapping(path="/{id}")
 	public OrderDetailsResponse getOrder(@PathVariable String id) throws Exception{
 
-		OrderDto orderDto = orderService.getOrderById(id);
+		try {
+			OrderDto orderDto = orderService.getOrderById(id);
 
-		OrderDetailsResponse orderDetailsResponse = new OrderDetailsResponse();
-		orderDetailsResponse.setOrderId(orderDto.getOrderId());
-		orderDetailsResponse.setCost(orderDto.getCost());
-		orderDetailsResponse.setItems(orderDto.getItems());
-		orderDetailsResponse.setUserId(orderDto.getUserId());
-		orderDetailsResponse.setStatus(orderDto.isStatus());
-		return orderDetailsResponse;
+			OrderDetailsResponse orderDetailsResponse = new OrderDetailsResponse();
+			orderDetailsResponse.setOrderId(orderDto.getOrderId());
+			orderDetailsResponse.setCost(orderDto.getCost());
+			orderDetailsResponse.setItems(orderDto.getItems());
+			orderDetailsResponse.setUserId(orderDto.getUserId());
+			orderDetailsResponse.setStatus(orderDto.isStatus());
+			return orderDetailsResponse;
+		}
+		catch(Exception e)
+		{
+			return new OrderDetailsResponse();
+		}
 	}
 	
 	@PostMapping()
