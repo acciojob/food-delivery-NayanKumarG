@@ -1,5 +1,6 @@
 package com.driver.ui.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -90,7 +91,19 @@ public class OrderController {
 	
 	@GetMapping()
 	public List<OrderDetailsResponse> getOrders() {
-		
-		return null;
+
+		List<OrderDto> list = orderService.getOrders();
+		List<OrderDetailsResponse> orderDetailsResponses = new ArrayList<>();
+		for(OrderDto orderdto : list)
+		{
+			OrderDetailsResponse orderDetailsResponse = new OrderDetailsResponse();
+			orderDetailsResponse.setOrderId(orderdto.getOrderId());
+			orderDetailsResponse.setCost(orderdto.getCost());
+			orderDetailsResponse.setItems(orderdto.getItems());
+			orderDetailsResponse.setUserId(orderdto.getUserId());
+			orderDetailsResponse.setStatus(orderdto.isStatus());
+			orderDetailsResponses.add(orderDetailsResponse);
+		}
+		return orderDetailsResponses;
 	}
 }

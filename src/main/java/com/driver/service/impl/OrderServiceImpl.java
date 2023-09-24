@@ -6,6 +6,7 @@ import com.driver.service.OrderService;
 import com.driver.shared.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
@@ -67,6 +68,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getOrders() {
-        return null;
+
+        List<OrderDto> list = new ArrayList<>();
+        List<OrderEntity> orderEntityList = (List<OrderEntity>) orderRepository.findAll();
+        for(OrderEntity orderEntity : orderEntityList)
+        {
+            OrderDto orderDto = new OrderDto();
+            orderDto.setOrderId(orderEntity.getOrderId());
+            orderDto.setId(orderEntity.getId());
+            orderDto.setCost(orderEntity.getCost());
+            orderDto.setUserId(orderEntity.getUserId());
+            orderDto.setItems(orderEntity.getItems());
+            orderDto.setStatus(orderEntity.isStatus());
+            list.add(orderDto);
+        }
+        return list;
     }
 }
