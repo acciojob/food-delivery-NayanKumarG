@@ -1,6 +1,7 @@
 package com.driver.ui.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.driver.model.request.OrderDetailsRequestModel;
 import com.driver.model.response.OperationStatusModel;
@@ -45,20 +46,46 @@ public class OrderController {
 	
 	@PostMapping()
 	public OrderDetailsResponse createOrder(@RequestBody OrderDetailsRequestModel order) {
-		
-		return null;
+
+		OrderDto orderDto = new OrderDto();
+		orderDto.setCost(order.getCost());
+		orderDto.setUserId(order.getUserId());
+		orderDto.setItems(order.getItems());
+		orderDto.setOrderId(String.valueOf(UUID.randomUUID()));
+		orderDto.setStatus(true);
+		OrderDto orderdto =orderService.createOrder(orderDto);
+		OrderDetailsResponse orderDetailsResponse = new OrderDetailsResponse();
+		orderDetailsResponse.setOrderId(orderdto.getOrderId());
+		orderDetailsResponse.setCost(orderdto.getCost());
+		orderDetailsResponse.setItems(orderdto.getItems());
+		orderDetailsResponse.setUserId(orderdto.getUserId());
+		orderDetailsResponse.setStatus(orderdto.isStatus());
+		return orderDetailsResponse;
 	}
 		
 	@PutMapping(path="/{id}")
 	public OrderDetailsResponse updateOrder(@PathVariable String id, @RequestBody OrderDetailsRequestModel order) throws Exception{
-		
-		return null;
+		OrderDto orderDto = new OrderDto();
+		orderDto.setCost(order.getCost());
+		orderDto.setUserId(order.getUserId());
+		orderDto.setItems(order.getItems());
+		OrderDto orderdto = orderService.updateOrderDetails(id , orderDto);
+		OrderDetailsResponse orderDetailsResponse = new OrderDetailsResponse();
+		orderDetailsResponse.setOrderId(orderdto.getOrderId());
+		orderDetailsResponse.setCost(orderdto.getCost());
+		orderDetailsResponse.setItems(orderdto.getItems());
+		orderDetailsResponse.setUserId(orderdto.getUserId());
+		orderDetailsResponse.setStatus(orderdto.isStatus());
+		return orderDetailsResponse;
 	}
 	
 	@DeleteMapping(path = "/{id}")
 	public OperationStatusModel deleteOrder(@PathVariable String id) throws Exception {
-		
-		return null;
+		orderService.deleteOrder(id);
+		OperationStatusModel operationStatusModel = new OperationStatusModel();
+		operationStatusModel.setOperationResult("SUCCESS");
+		operationStatusModel.setOperationName("DELETE");
+		return operationStatusModel;
 	}
 	
 	@GetMapping()
