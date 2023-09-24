@@ -1,5 +1,6 @@
 package com.driver.ui.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.driver.model.request.FoodDetailsRequestModel;
@@ -54,24 +55,53 @@ public class FoodController {
 		foodDtorequest.setFoodCategory(foodDetails.getFoodCategory());
 		foodDtorequest.setFoodId(foodDtorequest.getFoodId());
 		FoodDto foodDto = foodService.createFood(foodDtorequest);
-		return null;
+		FoodDetailsResponse foodDetailsResponse = new FoodDetailsResponse();
+		foodDetailsResponse.setFoodCategory(foodDto.getFoodCategory());
+		foodDetailsResponse.setFoodName(foodDto.getFoodName());
+		foodDetailsResponse.setFoodId(foodDto.getFoodId());
+		foodDetailsResponse.setFoodPrice(foodDto.getFoodPrice());
+		return foodDetailsResponse;
 	}
 
 	@PutMapping(path="/{id}")
 	public FoodDetailsResponse updateFood(@PathVariable String id, @RequestBody FoodDetailsRequestModel foodDetails) throws Exception{
-
-		return null;
+		FoodDto foodDtorequest = new FoodDto();
+		foodDtorequest.setFoodPrice(foodDetails.getFoodPrice());
+		foodDtorequest.setFoodName(foodDetails.getFoodName());
+		foodDtorequest.setFoodCategory(foodDetails.getFoodCategory());
+		foodDtorequest.setFoodId(foodDtorequest.getFoodId());
+		FoodDto foodDto = foodService.updateFoodDetails(id , foodDtorequest);
+		FoodDetailsResponse foodDetailsResponse = new FoodDetailsResponse();
+		foodDetailsResponse.setFoodCategory(foodDto.getFoodCategory());
+		foodDetailsResponse.setFoodName(foodDto.getFoodName());
+		foodDetailsResponse.setFoodId(foodDto.getFoodId());
+		foodDetailsResponse.setFoodPrice(foodDto.getFoodPrice());
+		return foodDetailsResponse;
 	}
 
 	@DeleteMapping(path = "/{id}")
 	public OperationStatusModel deleteFood(@PathVariable String id) throws Exception{
+		foodService.deleteFoodItem(id);
+		OperationStatusModel operationStatusModel = new OperationStatusModel();
+		operationStatusModel.setOperationName("DELETE");
+		operationStatusModel.setOperationResult("SUCCESS");
 
-		return null;
+		return operationStatusModel;
 	}
 	
 	@GetMapping()
 	public List<FoodDetailsResponse> getFoods() {
-
-		return null;
+		List<FoodDetailsResponse> foodDetailsResponses = new ArrayList<>();
+		List<FoodDto> foodDtoList = foodService.getFoods();
+		for(FoodDto foodDto : foodDtoList)
+		{
+			FoodDetailsResponse foodDetailsResponse = new FoodDetailsResponse();
+			foodDetailsResponse.setFoodCategory(foodDto.getFoodCategory());
+			foodDetailsResponse.setFoodName(foodDto.getFoodName());
+			foodDetailsResponse.setFoodId(foodDto.getFoodId());
+			foodDetailsResponse.setFoodPrice(foodDto.getFoodPrice());
+			foodDetailsResponses.add(foodDetailsResponse);
+		}
+		return foodDetailsResponses;
 	}
 }

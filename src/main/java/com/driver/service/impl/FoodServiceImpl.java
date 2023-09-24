@@ -6,6 +6,7 @@ import com.driver.service.FoodService;
 import com.driver.shared.dto.FoodDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FoodServiceImpl implements FoodService{
@@ -42,16 +43,42 @@ public class FoodServiceImpl implements FoodService{
 
     @Override
     public FoodDto updateFoodDetails(String foodId, FoodDto foodDetails) throws Exception {
-        return null;
+
+        FoodEntity foodEntity = foodRepository.findByFoodId(foodId);
+        foodEntity.setFoodPrice(foodDetails.getFoodPrice());
+        foodEntity.setFoodName(foodDetails.getFoodName());
+        foodEntity.setFoodCategory(foodDetails.getFoodCategory());
+
+        FoodEntity foodEntity1 = foodRepository.save(foodEntity);
+        FoodDto foodDto = new FoodDto();
+        foodDto.setFoodCategory(foodEntity1.getFoodCategory());
+        foodDto.setFoodName(foodEntity1.getFoodName());
+        foodDto.setFoodId(foodEntity1.getFoodId());
+        foodDto.setFoodPrice(foodEntity1.getFoodPrice());
+        return foodDto;
     }
 
     @Override
     public void deleteFoodItem(String id) throws Exception {
-
+        foodRepository.deleteByFoodId(id);
     }
 
     @Override
     public List<FoodDto> getFoods() {
-        return null;
+
+        List<FoodEntity> foodEntityList = (List<FoodEntity>) foodRepository.findAll();
+        List<FoodDto> foodDtoList = new ArrayList<>();
+
+        for(FoodEntity foodEntity1 : foodEntityList)
+        {
+            FoodDto foodDto = new FoodDto();
+            foodDto.setFoodCategory(foodEntity1.getFoodCategory());
+            foodDto.setFoodName(foodEntity1.getFoodName());
+            foodDto.setFoodId(foodEntity1.getFoodId());
+            foodDto.setFoodPrice(foodEntity1.getFoodPrice());
+            foodDtoList.add(foodDto);
+        }
+
+        return foodDtoList;
     }
 }
